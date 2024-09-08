@@ -8,21 +8,22 @@ lspconfig.lua_ls.setup {
 
     settings = {
         Lua = {
-            runtime = {
-                -- Tell the language server which version of Lua you're using
-                -- (most likely LuaJIT in the case of Neovim)
-                version = "LuaJIT"
-            },
+            -- runtime = {
+            --     -- Tell the language server which version of Lua you're using
+            --     -- (most likely LuaJIT in the case of Neovim)
+            --     version = "LuaJIT"
+            -- },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = {"vim", "require"}
+                globals = {"vim", "require"},
+                disable = {"lowercase-global"},
             },
-            workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = vim.api.nvim_get_runtime_file("", true)
-                -- the following does not show nvim api completion
-                -- library = vim.env.runtime,
-            },
+            -- workspace = {
+            --     -- Make the server aware of Neovim runtime files
+            --     library = vim.api.nvim_get_runtime_file("", true)
+            --     -- the following does not show nvim api completion
+            --     -- library = vim.env.runtime,
+            -- },
             hint = {
                 enable = true
             },

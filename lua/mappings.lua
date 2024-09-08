@@ -76,10 +76,11 @@ vim.keymap.set(
         desc = "touch file to reload observers"
     }
 )
-utils.nmap("<nop>", "<Plug>NERDCommenterAltDelims") -- tab is for moving around only
+utils.nmap("<nop>", "<Plug>NERDCommenterAltDelims") 
+-- tab is for moving around only
 vim.api.nvim_set_keymap(
     "n",
-    "<leader>tv",
+    "<leader>Tsv",
     ":vsp term://",
     {
         noremap = true,
@@ -88,7 +89,7 @@ vim.api.nvim_set_keymap(
 )
 vim.api.nvim_set_keymap(
     "n",
-    "<leader>th",
+    "<leader>Tsh",
     ":sp term://",
     {
         noremap = true,
@@ -172,6 +173,14 @@ vim.keymap.set(
 )
 
 -- Insert mode mappings
+vim.keymap.set({ "i", "n" }, "<leader>;", function()
+    if vim.fn.mode() == "i" then
+        return vim.api.nvim_replace_termcodes("<esc>m`A;<esc>``a", true, true, true)
+    else
+        return "m`A;<esc>``"
+    end
+    end, { noremap = true, silent = true, expr = true, desc = "Insert semicolon at the end of the line" })
+
 vim.keymap.set(
     "i",
     "<C-h>",
@@ -316,15 +325,12 @@ vim.api.nvim_set_keymap(
         desc = "moves down over virtual (wrapped) lines"
     }
 )
+vim.api.nvim_set_keymap("n", "<M-l>", "<cmd>tabnext<cr>", { noremap = true, silent = true, desc = "move to next tab" })
 vim.api.nvim_set_keymap(
     "n",
-    "<Mgo-Right>",
-    "gT",
-    {
-        noremap = true,
-        silent = true,
-        desc = "move to next tab"
-    }
+    "<M-h>",
+    "<cmd>tabprevious<cr>",
+    { noremap = true, silent = true, desc = "move to next tab" }
 )
 utils.nmap(
     "<BS>",
@@ -347,20 +353,10 @@ utils.vmap(
         desc = "Move Line Up in Visual Mode"
     }
 )
-utils.nmap(
-    "<leader>k",
-    ":m .-2<CR>==",
-    {
-        desc = "Move Line Up in Normal Mode"
-    }
-)
-utils.nmap(
-    "<leader>j",
-    ":m .+1<CR>==",
-    {
-        desc = "Move Line Down in Normal Mode"
-    }
-)
+utils.nmap("<leader>mk", ":m .-2<CR>==", { desc = "Move Line Up in Normal Mode" })
+utils.nmap("<leader>mj", ":m .+1<CR>==", { desc = "Move Line Down in Normal Mode" })
+utils.vmap("<leader>mk", ":m '<-2<CR>gv=gv", { desc = "Move Line Up in Visual Mode" })
+utils.vmap("<leader>mj", ":m '>+1<CR>gv=gv", { desc = "Move Line Down in Visual Mode" })
 utils.nmap(
     "<Leader>em",
     ":/\\V\\c\\<\\>",
@@ -493,25 +489,12 @@ utils.vmap(
     }
 )
 -- MANIPULATE TEXT --
-utils.nmap(
-    "gp",
-    "`[v`]",
-    {
-        desc = "select pasted text"
-    }
-)
+utils.nmap("<leader>gp", "`[v`]", { desc = "select pasted text" })
 utils.imap(
     "<A-l>",
     "<C-o>a",
     {
         desc = "skip over a letter"
-    }
-)
-utils.imap(
-    "<C-n>",
-    "<C-e><C-o>A;<ESC>",
-    {
-        desc = "insert semicolon at the end of the line"
     }
 )
 
@@ -699,8 +682,13 @@ utils.xmap(
     }
 )
 -- PATH OPERATIONS --
-utils.lnmap("cpf", ':let @+ = expand("%:p", { desc = "Copy current file name and path" })<cr>')
-utils.lnmap("cpfl", [[:let @+ = expand("%:p") . ':' . line('.')<cr>]]) -- Copy current file name, path, and line number
+vim.keymap.set(
+    "n",
+    "<leader>cpf",
+    ':let @+ = expand("%:p")<cr>:lua print("Copied path to: " .. vim.fn.expand("%:p"))<cr>',
+    { desc = "Copy current file name and path", silent = false }
+)
+utils.lnmap("cpl", [[:let @+ = expand("%:p") . ':' . line('.')<cr>]]) -- Copy current file name, path, and line number
 utils.lnmap("cpn", ':let @+ = expand("%:t")<cr>') -- Copy current file name
 utils.imap(
     "<c-d>",
@@ -794,10 +782,10 @@ utils.nmap("<leader>fmt", ":Pretty<CR>") -- format json with pretty
 utils.nmap("<Leader>son", ":setlocal spell spelllang=en_us<CR>") -- set spell check on
 utils.nmap("<Leader>sof", ":set nospell<CR>") -- set spell check off
 -- GIT RELATED --
-vim.keymap.set({"n", "v"}, "<leader>gb", ":GBrowse<cr>", opts) -- git browse current file in browser
+vim.keymap.set({"n", "v"}, "<leader>gbf", ":GBrowse<cr>", opts) -- git browse current file in browser
 vim.keymap.set(
     "n",
-    "<leader>gc",
+    "<leader>gbc",
     function()
         vim.cmd "GBrowse!"
     end,
@@ -807,7 +795,7 @@ vim.keymap.set(
 ) -- git browse current file and line in browser
 vim.keymap.set(
     "v",
-    "<leader>gc",
+    "<leader>gbl",
     ":GBrowse!<CR>",
     {
         noremap = true,

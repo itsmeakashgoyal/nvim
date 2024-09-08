@@ -69,21 +69,3 @@ set.smarttab = true -- Insert blanks according to shiftwidth, or tabstop in fron
 
 -- Disable copilot on boot
 vim.b.copilot_enabled = false
-
-vim.cmd "command! GetCurrentFileDir lua print_current_file_dir()"
-
--- Key mappings
-vim.cmd "command! Fold lua _G.toggle_function_folding()"
-
-vim.api.nvim_set_keymap(
-    "n",
-    "fld",
-    [[<Cmd>lua _G.toggle_function_folding()<CR>]],
-    {
-        noremap = true,
-        silent = false
-    }
-)
-vim.cmd [[
-  command! -range=% -nargs=* -complete=customlist,v:lua.my_custom_complete ProcessTasks :lua _G.process_task_list(<line1>, <line2>, <f-args>)
-]]
