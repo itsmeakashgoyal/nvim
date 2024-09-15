@@ -17,7 +17,6 @@ require("mason-tool-installer").setup {
         "gomodifytags",
         "gotests",
         "impl",
-        "java",
         "json",
         "json-to-struct",
         "luacheck",

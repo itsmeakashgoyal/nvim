@@ -1,3 +1,2 @@
-require('settings.global')
-require('settings.colorschemes')
-require('settings.plugins-setup')
+require('plugins.colorschemes')
+require('plugins.plugins-setup')

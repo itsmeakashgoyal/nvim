@@ -1,4 +1,12 @@
-require "plugins"
+--Enable the new |lua-loader| that byte-compiles and caches lua files.
+vim.loader.enable()
+
+-- setup editor options -> syntax -> autocmds -> mappings
+require("config")
+
+-- bootstrap lazy.nvim
+require("config.lazy")
+
 require "settings"
 require "autocommands"
 require "mappings"
@@ -11,7 +19,6 @@ for _, file in ipairs(vim.fn.readdir(vim.fn.stdpath "config" .. "/lua/user_funct
     require("user_functions." .. file:gsub("%.lua$", ""))
 end
 
--- PROJECT: project-config
 -- Searches for a .nvimrc file from the current directory up to the root and executes it if found.
 vim.api.nvim_create_autocmd(
     "BufEnter",
